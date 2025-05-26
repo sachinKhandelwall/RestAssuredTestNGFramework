@@ -17,6 +17,12 @@ public class ConfigLoader {
         return configLoader;
     }
 
+    public String getUser(){
+        String prop = properties.getProperty("user_id");
+        if(prop != null) return prop;
+        else throw new RuntimeException("property user_id is not specified in the config.properties file");
+    }
+
     public String getClientId(){
         String prop = properties.getProperty("client_id");
         if(prop != null) return prop;
@@ -39,12 +45,6 @@ public class ConfigLoader {
         String prop = properties.getProperty("refresh_token");
         if(prop != null) return prop;
         else throw new RuntimeException("property refresh_token is not specified in the config.properties file");
-    }
-
-    public String getUser(){
-        String prop = properties.getProperty("user_id");
-        if(prop != null) return prop;
-        else throw new RuntimeException("property user_id is not specified in the config.properties file");
     }
 
 }
