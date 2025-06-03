@@ -1,5 +1,7 @@
 **Complete Guide to Run UI Automation Repo on Jenkins with Docker & Kubernetes (4 Parallel Pods)**
 
+Docker Prerequisite: https://chatgpt.com/canvas/shared/683eb01e41808191bfdfffb552d0bd1c
+
 Repo: [https://github.com/sachinKhandelwall/cloudbeesUiAutomationAssignment](https://github.com/sachinKhandelwall/cloudbeesUiAutomationAssignment)
 
 ---
@@ -201,7 +203,6 @@ Each pod will:
 
 📝 Clarifying my Doubts
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ✅ 1. What is COPY . . in Dockerfile?
 
