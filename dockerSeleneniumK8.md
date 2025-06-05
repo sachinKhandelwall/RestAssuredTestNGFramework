@@ -1,8 +1,9 @@
 # Docker and Kubernetes Basic Concepts
 
-## Links: 
+### Links: 
 ### https://chatgpt.com/canvas/shared/683eb01e41808191bfdfffb552d0bd1c
 ### https://chatgpt.com/canvas/shared/683ef87ae4d88191b889e4ee5c3e9b57
+
 
 
 ## Dockerfile and Its Use in Selenium Java UI Automation Framework
@@ -330,8 +331,8 @@ You must define resources.requests and limits in the pod/container for this to w
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-**Complete Guide to Run UI Automation Repo on Jenkins with Docker & Kubernetes (4 Parallel Pods)**
-Repo: https://github.com/sachinKhandelwall/cloudbeesUiAutomationAssignment
+# Complete Guide to Run UI Automation Repo on Jenkins with Docker & Kubernetes (4 Parallel Pods)
+### Repo: https://github.com/sachinKhandelwall/cloudbeesUiAutomationAssignment
 
 
 ### 🔧 Prerequisites
@@ -529,9 +530,7 @@ Each pod will:
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
-📝 Clarifying my Doubts
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Clarifying my Doubts
 
 
 ✅ 1. What is COPY . . in Dockerfile?
