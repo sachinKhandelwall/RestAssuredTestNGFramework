@@ -5,8 +5,6 @@
 #### https://chatgpt.com/canvas/shared/683ef87ae4d88191b889e4ee5c3e9b57
 
 
-
-
 ## Dockerfile and Its Use in Selenium Java UI Automation Framework
 
 ### What is a Dockerfile?
