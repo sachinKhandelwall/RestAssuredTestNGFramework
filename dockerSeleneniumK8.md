@@ -1,4 +1,4 @@
-**Complete Guide to Run UI Automation Repo on Jenkins with Docker & Kubernetes (4 Parallel Pods)**
+**Docker and Kubernetes Basic Concepts**
 
 Links: 
 https://chatgpt.com/canvas/shared/683eb01e41808191bfdfffb552d0bd1c
@@ -330,6 +330,10 @@ You must define resources.requests and limits in the pod/container for this to w
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
+**Complete Guide to Run UI Automation Repo on Jenkins with Docker & Kubernetes (4 Parallel Pods)**
+Repo: https://github.com/sachinKhandelwall/cloudbeesUiAutomationAssignment
+
+
 ### 🔧 Prerequisites
 
 Ensure the following are installed and configured:
@@ -523,7 +527,7 @@ Each pod will:
 * Execute your UI tests (in parallel)
 
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+---------------------------------------------------------------------------------------------------------------------------------
 
 📝 Clarifying my Doubts
 
