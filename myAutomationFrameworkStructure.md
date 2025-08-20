@@ -2,7 +2,9 @@
 
 ```plaintext
 src
+│
 └── main
+    │
     ├── java
     │   └── com.oneshop.bff
     │       ├── applicationApi  (contains methods to build payloads and module-specific API calls; these call generic 
@@ -128,19 +130,9 @@ src
     │           ├── JsonReader.java
     │           ├── ExcelUtil.java
     │           └── TokenManager.java
-    │
-    └── resources
-        ├── config.properties                   # (client_id, token, etc.)
-        ├── allure.properties                   # Allure report config (e.g., allure.results.directory=target/allure-results)
-        ├── reportportal.properties              
-        ├── log4j2.xml                           
-        └── envProperties
-            ├── env.properties                   # Defines env to run (e.g., env=stage)
-            ├── preprod.yml                      # Preprod environment config (URLs, endpoints, slugs)
-            └── prod.yml                         # Production environment config (URLs, endpoints, slugs)
 │
 ├── test
-|   │
+│   │
 │   ├── java
 │   │   └── com.oneshop.bff
 │   │       ├── baseTest
@@ -155,10 +147,13 @@ src
 │   │               └── OrderPlacementTest.java   # Example E2E order placement test (tariff/device flow)
 │   │
 │   └── resources
-│       ├── endpoints                          # contains all the endpoints of different modules
-│       │   ├── TariffListingEndpoints.java      # Endpoints for tariff module
+│       ├── endpoints (or routes)                # contains all the endpoints of different modules
+│       │   ├── TariffListingEndpoints.java      # Endpoints for tariff module 
 │       │   ├── DeviceListingEndpoints.java      # Endpoints for device module
 │       │   └── BasketEndpoints.java             # Endpoints for basket module
+│       │
+│       ├── constants                
+│       │   ├── Constants.java                   # Constants like cms key name, expectedData name, etc.
 │       │
 │       └── testData                           # contains testData required for different envs
 │           ├── stage.json                       # Test data for stage env
@@ -180,4 +175,4 @@ src
 │
 └── testng.xml    
 │
-└── reports   
+└── reports    
