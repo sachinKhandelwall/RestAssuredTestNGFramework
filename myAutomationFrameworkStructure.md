@@ -37,110 +37,97 @@ src
     │       │   ├── BasketApi.java
     │       │   └── CheckoutApi.java
     │       │
+    │       │
     │       ├── pojo
     │       │   ├── request
     │       │   │   └── (POJO classes for request payloads)
     │       │   └── response
     │       │       └── (POJO classes for response payloads)
     │       │
-    │       ├── utils
-    │       │   ├── ConfigLoader.java  (loads config like client_id, token from config.properties using Singleton pattern)
+    │       ├── apiClient
+    │       │   ├── RestUtils.java  (generic POST/PUT/GET methods to perform CRUD operations; called from applicationApi classes)
+    │       │   │
+    │       │   │   // Signatures and sample implementation:
+    │       │   │   public class RestUtils {
+    │       │   │
+    │       │   │       public static Response post(String path, String requestPayload) {}
+    │       │   │
+    │       │   │       public static Response post(String path, String token, String requestPayload) {
+    │       │   │           return given(SpecBuilder.getRequestSpec())
+    │       │   │                   .header("Authorization", "Bearer " + token)
+    │       │   │                   // alternatively: .auth().oauth2(token)
+    │       │   │                   .body(requestPayload)
+    │       │   │                   .when().post(path)
+    │       │   │                   .then().spec(SpecBuilder.getResponseSpec())
+    │       │   │                   .extract().response();
+    │       │   │       }
+    │       │   │
+    │       │   │       public static Response get(String path) {
+    │       │   │           return given(SpecBuilder.getRequestSpec())
+    │       │   │                   .when().get(path)
+    │       │   │                   .then().spec(SpecBuilder.getResponseSpec())
+    │       │   │                   .extract().response();
+    │       │   │       }
+    │       │   │
+    │       │   ├── SpecBuilder.java  (methods for Request and Response specifications)
     │       │   │
     │       │   │   // Sample outline:
-    │       │   │   public class ConfigLoader {
-    │       │   │       private final Properties properties;
-    │       │   │       private static ConfigLoader configLoader;
-    │       │   │
-    │       │   │       private ConfigLoader() {
-    │       │   │           properties = PropertyUtils.propertyLoader("src/test/resources/config.properties");
+    │       │   │   public class SpecBuilder {
+    │       │   │       public static RequestSpecification getRequestSpec() {
+    │       │   │           return new RequestSpecBuilder()
+    │       │   │                   // .setBaseUri("https://api.spotify.com")
+    │       │   │                   .setBaseUri(System.getProperty("BASE_URI"))
+    │       │   │                   .setBasePath(BASE_PATH)
+    │       │   │                   .setContentType(ContentType.JSON)
+    │       │   │                   .addFilter(new AllureRestAssured())
+    │       │   │                   .log(LogDetail.ALL)
+    │       │   │                   .build();
     │       │   │       }
     │       │   │
-    │       │   │       public static ConfigLoader getInstance() {
-    │       │   │           if (configLoader == null) {
-    │       │   │               configLoader = new ConfigLoader();
-    │       │   │           }
-    │       │   │           return configLoader;
-    │       │   │       }
-    │       │   │
-    │       │   │       public String getUser() {
-    │       │   │           String prop = properties.getProperty("user_id");
-    │       │   │           if (prop != null) return prop;
-    │       │   │           else throw new RuntimeException("property user_id not specified in the config.properties file");
+    │       │   │       public static ResponseSpecification getResponseSpec() {
+    │       │   │           return new ResponseSpecBuilder()
+    │       │   │                   .expectContentType(ContentType.JSON)
+    │       │   │                   .log(LogDetail.ALL)
+    │       │   │                   .build();
     │       │   │       }
     │       │   │   }
     │       │   │
-    │       │   ├── PropertyUtils.java   (read/load property files)
-    │       │   ├── FakerUtils.java      (generate random name, address, etc.)
-    │       │   ├── DateUtils.java
-    │       │   ├── EncryptionUtil.java
-    │       │   ├── YamlReader.java
-    │       │   ├── JsonReader.java
-    │       │   ├── ExcelUtil.java
-    │       │   └── TokenManager.java
+    │       │   └── StatusCode.java  (Enum)
     │       │
-    │       ├── RestUtils.java  (generic POST/PUT/GET methods to perform CRUD operations; called from applicationApi classes)
-    │       │
-    │       │   // Signatures and sample implementation:
-    │       │   public class RestUtils {
-    │       │
-    │       │       public static Response post(String path, String requestPayload) {
-    │       │           return given(SpecBuilder.getRequestSpec())
-    │       │                   .body(requestPayload)
-    │       │                   .when().post(path)
-    │       │                   .then().spec(SpecBuilder.getResponseSpec())
-    │       │                   .extract().response();
-    │       │       }
-    │       │
-    │       │       public static Response post(String path, String token, String requestPayload) {
-    │       │           return given(SpecBuilder.getRequestSpec())
-    │       │                   .header("Authorization", "Bearer " + token)
-    │       │                   // alternatively: .auth().oauth2(token)
-    │       │                   .body(requestPayload)
-    │       │                   .when().post(path)
-    │       │                   .then().spec(SpecBuilder.getResponseSpec())
-    │       │                   .extract().response();
-    │       │       }
-    │       │
-    │       │       public static Response get(String path) {
-    │       │           return given(SpecBuilder.getRequestSpec())
-    │       │                   .when().get(path)
-    │       │                   .then().spec(SpecBuilder.getResponseSpec())
-    │       │                   .extract().response();
-    │       │       }
-    │       │
-    │       │       public static Response put(String path, String requestPayload) {
-    │       │           return given(SpecBuilder.getRequestSpec())
-    │       │                   .body(requestPayload)
-    │       │                   .when().put(path)
-    │       │                   .then().spec(SpecBuilder.getResponseSpec())
-    │       │                   .extract().response();
-    │       │       }
-    │       │   }
-    │       │
-    │       ├── SpecBuilder.java  (methods for Request and Response specifications)
-    │       │
-    │       │   // Sample outline:
-    │       │   public class SpecBuilder {
-    │       │       public static RequestSpecification getRequestSpec() {
-    │       │           return new RequestSpecBuilder()
-    │       │                   // .setBaseUri("https://api.spotify.com")
-    │       │                   .setBaseUri(System.getProperty("BASE_URI"))
-    │       │                   .setBasePath(BASE_PATH)
-    │       │                   .setContentType(ContentType.JSON)
-    │       │                   .addFilter(new AllureRestAssured())
-    │       │                   .log(LogDetail.ALL)
-    │       │                   .build();
-    │       │       }
-    │       │
-    │       │       public static ResponseSpecification getResponseSpec() {
-    │       │           return new ResponseSpecBuilder()
-    │       │                   .expectContentType(ContentType.JSON)
-    │       │                   .log(LogDetail.ALL)
-    │       │                   .build();
-    │       │       }
-    │       │   }
-    │       │
-    │       └── StatusCode.java  (Enum)
+    │       └── utils
+    │           ├── ConfigLoader.java  (loads config like client_id, token from config.properties using Singleton pattern)
+    │           │
+    │           │   // Sample outline:
+    │           │   public class ConfigLoader {
+    │           │       private final Properties properties;
+    │           │       private static ConfigLoader configLoader;
+    │           │
+    │           │       private ConfigLoader() {
+    │           │           properties = PropertyUtils.propertyLoader("src/test/resources/config.properties");
+    │           │       }
+    │           │
+    │           │       public static ConfigLoader getInstance() {
+    │           │           if (configLoader == null) {
+    │           │               configLoader = new ConfigLoader();
+    │           │           }
+    │           │           return configLoader;
+    │           │       }
+    │           │
+    │           │       public String getUser() {
+    │           │           String prop = properties.getProperty("user_id");
+    │           │           if (prop != null) return prop;
+    │           │           else throw new RuntimeException("property user_id not specified in the config.properties file");
+    │           │       }
+    │           │   }
+    │           │
+    │           ├── PropertyUtils.java   (read/load property files)
+    │           ├── FakerUtils.java      (generate random name, address, etc.)
+    │           ├── DateUtils.java
+    │           ├── EncryptionUtil.java
+    │           ├── YamlReader.java
+    │           ├── JsonReader.java
+    │           ├── ExcelUtil.java
+    │           └── TokenManager.java
     │
     └── resources
         ├── config.properties                   # (client_id, token, etc.)
@@ -153,6 +140,7 @@ src
             └── prod.yml                         # Production environment config (URLs, endpoints, slugs)
 │
 ├── test
+|   │
 │   ├── java
 │   │   └── com.oneshop.bff
 │   │       ├── baseTest
