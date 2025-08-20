@@ -1,5 +1,6 @@
 # RestAssured API Automation Framework Structure
 
+```plaintext
 
 src
 │
